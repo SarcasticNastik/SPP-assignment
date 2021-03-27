@@ -1,16 +1,17 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-/* #define min(x, y) (y ^ ((x ^ y) & -(x < y))) */
+#define min(x, y) (y ^ ((x ^ y) & -(x < y)))
 
 unsigned int vertex, edges;
 long int **adj;
 
-long int min(long int x, long int y) {
-  if (x < y)
-    return x;
-  return y;
-}
+/* long int min(long int x, long int y) { */
+/*   if (x < y) */
+/*     return x; */
+/*   return y; */
+/* } */
+
 void input() {
   long int x, y, w;
   for (int i = 0; i < edges; ++i) {
@@ -21,10 +22,12 @@ void input() {
 
 void set_memory() {
   adj = (long int **)malloc(vertex * sizeof(long int *));
-  for (int i = 0; i < vertex; i++) {
+  for (int i = 0; i < vertex; ++i) {
     adj[i] = (long int *)malloc(vertex * sizeof(long int));
-    memset(adj[i], 1000000, vertex * sizeof(long int));
+    for (int j = 0; j < vertex; ++j)
+      adj[i][j] = 10000000;
   }
+
   /* printf("After allocating memory, array is:\n"); */
   /* for (int i = 0; i < vertex; i++) { */
   /*   for (int j = 0; j < vertex; ++j) */
@@ -45,6 +48,8 @@ void output() {
     for (int j = 0; j < vertex; ++j) {
       if (adj[i][j] >= (long int)1000000)
         printf("-1 ");
+      else if (i == j)
+        printf("0 ");
       else
         printf("%ld ", adj[i][j]);
     }
