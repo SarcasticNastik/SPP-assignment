@@ -4,15 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "0aa20d3f3851faec",
+        "id": "deed3f85047f9828",
         "type": "leaf",
         "active": true,
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Report.md",
-            "mode": "source"
-          }
+          "type": "empty",
+          "state": {}
         }
       }
     ],
@@ -53,8 +50,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "59c95972ef47ea23",
@@ -70,7 +66,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Report.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -87,7 +82,7 @@
     "collapsed": true
   },
   "lastOpenFiles": [
-    "Report.md",
-    "Untitled.md"
+    "Untitled.md",
+    "Report.md"
   ]
 }
