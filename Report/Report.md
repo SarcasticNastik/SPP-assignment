@@ -19,3 +19,17 @@ perf bench
 ```
 
 ### Cache Grind
+
+
+## Question 1 - Efficient Matrix Multiplication
+
+
+
+## Question 2 - Floyd Warshall
+
+1. Dynamic array allocation way slower than static (takes about `4x` time)
+2. Bitwise `min` taking way more time than simple function min
+3. Theoretically if statement and then assignment should take less time than a simple min function of both. (correct)
+
+
+
