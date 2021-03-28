@@ -4,14 +4,14 @@
     "type": "split",
     "children": [
       {
-        "id": "0aa20d3f3851faec",
+        "id": "f497dfdc13c9cfb6",
         "type": "leaf",
         "active": true,
         "state": {
           "type": "markdown",
           "state": {
             "file": "Report.md",
-            "mode": "source"
+            "mode": "preview"
           }
         }
       }

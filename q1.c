@@ -152,23 +152,23 @@ void output() {
 
 int main(int argc, char **argv) {
 
-  /* struct timespec begin, end; */
-  /* if (clock_gettime(CLOCK_REALTIME, &begin) == -1) { */
-  /*   perror("clock gettime"); */
-  /*   return EXIT_FAILURE; */
-  /* } */
+  struct timespec begin, end;
+  if (clock_gettime(CLOCK_REALTIME, &begin) == -1) {
+    perror("clock gettime");
+    return EXIT_FAILURE;
+  }
 
   input_and_memory();
   logic();
   output();
 
-  /* if (clock_gettime(CLOCK_REALTIME, &end) == -1) { */
-  /*   perror("clock gettime"); */
-  /*   return EXIT_FAILURE; */
-  /* } */
-  /* double S = (end.tv_sec - begin.tv_sec); */
-  /* double NS = (double)(end.tv_nsec - begin.tv_nsec) / (double)BILLION; */
-  /* printf("%lf", S + NS); */
+  if (clock_gettime(CLOCK_REALTIME, &end) == -1) {
+    perror("clock gettime");
+    return EXIT_FAILURE;
+  }
+  double S = (end.tv_sec - begin.tv_sec);
+  double NS = (double)(end.tv_nsec - begin.tv_nsec) / (double)BILLION;
+  printf("%lf", S + NS);
 
   return 0;
 }
