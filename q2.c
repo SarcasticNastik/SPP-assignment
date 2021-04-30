@@ -5,12 +5,10 @@
 #define EXIT_FAILURE 1
 
 unsigned int vertex, edges;
-// make a version of 1d malloc array (and test times)
 int *adj;
 int i, j, k, x, y, w;
 
 void input() {
-  // loop unroll
   for (i = 0; i < edges; ++i) {
     scanf("%d %d %d", &x, &y, &w);
     if (w < adj[(--x) * vertex + (--y)])
@@ -33,21 +31,14 @@ void set_memory() {
 
 void floyd_warshall() {
   register int *ptr, *saveptr, ele1, ele2;
-  // loop unroll
   for (k = 0; k < vertex; ++k) {
     for (i = 0; i < vertex; ++i) {
       ele1 = adj[i * vertex + k];
       if (ele1 >= 100000)
         continue;
-      /* for (j = 0; j < vertex; ++j) { */
-      /*   ele2 = adj[k * vertex + j]; */
-      /*   if (ele1 + ele2 < adj[i * vertex + j]) */
-      /*     adj[i * vertex + j] = ele1 + ele2; */
-      /* } */
       ptr = &adj[k * vertex];
       saveptr = &adj[i * vertex];
       for (j = 0; j <= vertex - 16; j += 16) {
-
         ele2 = ele1 + *ptr;
         if (ele2 < *saveptr)
           *saveptr = ele2;
@@ -123,7 +114,6 @@ void floyd_warshall() {
 }
 
 void output() {
-  // loop unroll
   for (i = 0; i < vertex; ++i) {
     for (j = i * vertex; j < (i + 1) * vertex; ++j) {
       if (adj[j] >= 100000)
@@ -147,7 +137,6 @@ int main(int argc, char **argv) {
   set_memory();
   input();
   floyd_warshall();
-  /* output(); */
 
   if (clock_gettime(CLOCK_REALTIME, &end) == -1) {
     perror("clock gettime");

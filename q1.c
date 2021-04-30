@@ -25,14 +25,9 @@ Matrix *matmul(Matrix *a, Matrix *b) {
   register long long int *ptr, *saveptr, value;
   for (i = 0; i < a->x; i++)
     for (k = 0; k < a->y; k++) {
-      value = a->arr[i * a->x + k];
-      saveptr = &prod->arr[i * prod->x];
-      ptr = &b->arr[k * b->x];
-
-      /* for (j = 0; j < b->y; j++) { */
-      /*   prod->arr[i * prod->x + j] += */
-      /*       a->arr[i * a->x + k] * b->arr[k * b->x + j]; */
-      /* } */
+      value = a->arr[i * a->y + k];
+      saveptr = &prod->arr[i * prod->y];
+      ptr = &b->arr[k * b->y];
 
       for (j = 0; j <= b->y - 16; j += 16) {
         *saveptr++ += value * *ptr++;
@@ -89,8 +84,9 @@ void input_and_memory() {
     matrices[i]->y = temp_y;
     matrices[i]->arr = malloc(temp_x * temp_y * sizeof(long long int));
     for (j = 0; j < temp_x; ++j)
-      for (k = 0; k < temp_y; ++k)
-        scanf("%lld", &(matrices[i]->arr[j * temp_x + k]));
+      for (k = 0; k < temp_y; ++k) {
+        scanf("%lld", &(matrices[i]->arr[j * temp_y + k]));
+      }
   }
 }
 
@@ -127,14 +123,6 @@ void logic() {
       }
     }
   }
-
-  // Printing order
-  /* for (i = 0; i < 5; i++) { */
-  /*   for (j = 0; j < 5; j++) { */
-  /*     printf("%d ", order[i][j]); */
-  /*   } */
-  /*   printf("\n"); */
-  /* } */
 
   product = multiply_by_order(1, order[0][NUM_MATRIX - 1], NUM_MATRIX);
 }
