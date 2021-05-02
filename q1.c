@@ -21,8 +21,10 @@ Matrix *matmul(Matrix *a, Matrix *b) {
   prod->x = a->x;
   prod->y = b->y;
   prod->arr = calloc(prod->x * prod->y, sizeof(long long int));
-  register int i, j, k;
-  register long long int *ptr, *saveptr, value;
+  int i, j, k;
+  long long int *ptr, *saveptr, value;
+#pragma omp parallel for shared(a, b, prod) private(i, k, j, value, saveptr,   \
+                                                    ptr)
   for (i = 0; i < a->x; i++)
     for (k = 0; k < a->y; k++) {
       value = a->arr[i * a->y + k];
@@ -51,11 +53,10 @@ Matrix *matmul(Matrix *a, Matrix *b) {
       for (; j < b->y; ++j)
         *saveptr++ += value * *ptr++;
     }
-  /* fprintf(stderr, "Size of matrix: %d %d\n", prod->x, prod->y); */
   return prod;
 }
 
-Matrix *multiply_by_order(register int i, register int j, register int k) {
+Matrix *multiply_by_order(int i, int j, int k) {
   if (i == k)
     return matrices[i - 1];
   if (i == j && j + 1 == k)
@@ -72,7 +73,7 @@ Matrix *multiply_by_order(register int i, register int j, register int k) {
 }
 
 void input_and_memory() {
-  register int i, j, k;
+  int i, j, k;
   scanf("%d", &NUM_MATRIX);
   matrices = (Matrix **)malloc(sizeof(Matrix *) * NUM_MATRIX);
   for (i = 0; i < NUM_MATRIX; ++i)
@@ -91,15 +92,13 @@ void input_and_memory() {
 }
 
 void logic() {
-  register int i, j, k, l, sum;
+  int i, j, k, l, sum;
 
   int dp[NUM_MATRIX][NUM_MATRIX];
-  /* memset(dp, -1, NUM_MATRIX * NUM_MATRIX * sizeof(int)); */
   for (i = 0; i < NUM_MATRIX; ++i)
     for (j = 0; j < NUM_MATRIX; ++j)
       dp[i][j] = order[i][j] = -1;
 
-  // DP to find the optimal order for matrix multiplication
   for (i = 0; i < NUM_MATRIX; ++i) {
     for (j = 0; j < NUM_MATRIX; ++j) {
       k = i + j + 1;
@@ -128,8 +127,7 @@ void logic() {
 }
 
 void output() {
-  // unroll the loop after testing
-  register int i, j;
+  int i, j;
   printf("%d %d\n", product->x, product->y);
   for (i = 0; i < product->x; ++i) {
     for (j = 0; j < product->y; ++j)
@@ -140,23 +138,9 @@ void output() {
 
 int main(int argc, char **argv) {
 
-  struct timespec begin, end;
-  if (clock_gettime(CLOCK_REALTIME, &begin) == -1) {
-    perror("clock gettime");
-    return EXIT_FAILURE;
-  }
-
   input_and_memory();
   logic();
   output();
-
-  if (clock_gettime(CLOCK_REALTIME, &end) == -1) {
-    perror("clock gettime");
-    return EXIT_FAILURE;
-  }
-  double S = (end.tv_sec - begin.tv_sec);
-  double NS = (double)(end.tv_nsec - begin.tv_nsec) / (double)BILLION;
-  printf("%lf", S + NS);
 
   return 0;
 }
